@@ -8,7 +8,7 @@
                 link: function(scope, element, attrs) {
                     // TODO: Improve this. Search for first class element upwards?
                     var dragElement = element[0],
-                        tearElement = dragElement.parentNode.parentNode,
+                        tearElement = dragElement.parentNode.parentNode.parentNode,
                         tileWidth = tearElement.clientWidth,
                         tileHeight = tearElement.clientHeight;
 
@@ -58,16 +58,12 @@
                                 };
                             }
 
-                            var initialOpacity = 1;
-
                             tearElement.addEventListener('dragstart', function(event) {
-                                initialOpacity = event.target.style.opacity || 1;
+                                tearElement.classList.add('dragging');
                                 event.dataTransfer.effectAllowed = 'move';
                             });
 
                             tearElement.addEventListener('drag', function(event) {
-                                // Set opacity here so the drag image doesn't appear even more faded.
-                                event.target.style.opacity = 0.4;
                                 var hoverTargets = hoverService.get();
 
                                 for (var i = 0, max = hoverTargets.length; i < max; i++) {
@@ -93,7 +89,7 @@
                             });
 
                             tearElement.addEventListener('dragend', function(event) {
-                                event.target.style.opacity = initialOpacity;
+                                tearElement.classList.remove('dragging');
                                 var x = event.screenX;
                                 var y = event.screenY;
                                 console.log(x, y);
@@ -117,6 +113,11 @@
 
                             dragElement.addEventListener('mouseout', function() {
                                 tearElement.draggable = false;
+                            });
+
+                            // Stop the click event from propagating to the parent
+                            dragElement.addEventListener('click', function(e) {
+                                e.stopPropagation();
                             });
                         }
 

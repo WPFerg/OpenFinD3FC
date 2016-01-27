@@ -21,6 +21,11 @@
 
 .drop-target {
   height: @favourite-height;
+  transition: opacity @transition-duration;
+
+  &.dragging {
+    opacity: 0.1;
+  }
 }
 
 // Don't nest this as it is the root element of the injected HTML for tearout windows
