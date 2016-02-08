@@ -173,6 +173,10 @@ module.exports = function(grunt) {
             dist: {
                 src: ['src/**/*.js'],
                 dest: 'public/app.js'
+            },
+            parent: {
+                src: ['src/parentApp.js', 'src/parent-controller.js', 'src/store-service.js', 'src/window-service.js'],
+                dest: 'public/app-parent.js'
             }
         },
 
@@ -189,7 +193,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'public/app.js': 'public/app.js'
+                    'public/app.js': 'public/app.js',
+                    'public/app-parent.js': 'public/app-parent.js'
                 }
             }
         }
@@ -225,7 +230,7 @@ module.exports = function(grunt) {
         });
     });
 
-    grunt.registerTask('build', ['eslint', 'clean', 'showcase', 'copy', 'concat:dist', 'babel', 'less:development', 'connect:livereload']);
+    grunt.registerTask('build', ['eslint', 'clean', 'showcase', 'copy', 'concat', 'babel', 'less:development', 'connect:livereload']);
     grunt.registerTask('build:uglify', ['build', 'uglify']);
     grunt.registerTask('serve', ['build', 'openfin:serve']);
     grunt.registerTask('createZip', ['build:uglify', 'download']);

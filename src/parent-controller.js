@@ -1,18 +1,17 @@
 (function() {
     'use strict';
 
-    angular.module('openfin.parent')
-        .controller('ParentCtrl', ['$scope', 'windowCreationService', function($scope, windowCreationService) {
-            var config = {
-                'autoShow': true,
-                'minWidth': 918,
-                'minHeight': 510,
-                'defaultWidth': 1280,
-                'defaultHeight': 720,
-                'frame': false,
-                'url': 'index.html'
-            };
-
+    const config = {
+        'autoShow': true,
+        'minWidth': 918,
+        'minHeight': 510,
+        'defaultWidth': 1280,
+        'defaultHeight': 720,
+        'frame': false,
+        'url': 'index.html'
+    };
+    class ParentCtrl {
+        constructor($scope, windowCreationService) {
             windowCreationService.ready(function() {
                 // TODO: Restore correct window(s)
                 windowCreationService.createWindow(config, function(newWindow) {
@@ -28,5 +27,10 @@
                     }
                 });
             });
-        }]);
+        }
+    }
+    ParentCtrl.$inject = ['$scope', 'windowCreationService'];
+
+    angular.module('openfin.parent')
+        .controller('ParentCtrl', ParentCtrl);
 }());
